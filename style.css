@@ -1,10 +1,24 @@
-.categories {
-    padding: 5px 10px;
-
-}
-
 .categories:hover {
     background-color: rgb(219, 42, 42);
     cursor: pointer;
     color: white;
+}
+
+.card-body p {
+    white-space: wrap;
+    width: auto;
+    height: 7.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
+.card-actions span {
+    margin-top: 7px;
+}
+
+.card-actions i {
+    cursor: pointer;
 }
