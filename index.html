@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News 24/7</title>
+    <link rel="stylesheet" href=".//style.css">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.39.1/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/b6d9270fd8.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="font-sans">
+    <header class="mx-20">
+        <div class="navbar bg-base-500 px-10 border-b-2 border-black font-sans py-5">
+            <div class="flex-1">
+                <a class="btn btn-ghost normal-case font-semibold text-3xl hover:text-white hover:bg-green-600">NEWS
+                    <span class="ml-2 p-1 bg-rose-600 text-white">24</span>
+                    <span class="ml-1 p-1 bg-green-600 text-white">7</span>
+                </a>
+            </div>
+            <div class="flex-none">
+                <div class="flex-none">
+                    <ul class="menu menu-horizontal p-0 mr-4 font-sans font-normal">
+                        <li class="mr-1"><a class="text-white bg-red-600" onclick="loadCategory()">News</a>
+                        </li>
+                        <li><a class="text-black hover:text-white hover:bg-green-600">Blog</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="dropdown dropdown-end">
+                    <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+                        <div class="w-10 rounded-full">
+                            <img src="https://placeimg.com/80/80/people" />
+                        </div>
+                    </label>
+                    <ul tabindex="0"
+                        class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                        <li>
+                            <a class="justify-between">
+                                Profile
+                                <span class="badge">New</span>
+                            </a>
+                        </li>
+                        <li><a>Settings</a></li>
+                        <li><a>Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+
+        <section>
+            <!-- sub-category list -->
+            <div id="categoryList" class="flex flex-row bg-green-500 my-5 py-5 mx-20 text-xl font-light justify-around">
+
+            </div>
+        </section>
+
+        <section>
+            <!-- notification and extrapanel -->
+        </section>
+        <section>
+            <!-- news card list -->
+            <div id="newsCardList" class="mx-20 my-20">
+                <!-- <div class="card lg:card-side bg-base-100 shadow-xl shadow-green-200">
+                    <figure><img src="https://placeimg.com/400/400/arch" alt="Album" /></figure>
+                    <div class="card-body">
+                        <h2 class="card-title">New album is released!</h2>
+                        <p>Click the button to listen on Spotiwhy app.</p>
+                        <div class="card-actions justify-end">
+                            <i onclick="" class="text-5xl text-rose-600 fa-solid fa-play"></i>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </section>
+    </main>
+    <!-- <footer class="footer footer-center p-10 bg-black text-base-content text-gray-300">
+        <div>
+            <p>Copyright © 2022 - All right reserved by ACME Industries Ltd</p>
+        </div>
+    </footer> -->
+    <script src=".//js/news.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,10 @@
+.categories {
+    padding: 5px 10px;
+
+}
+
+.categories:hover {
+    background-color: rgb(219, 42, 42);
+    cursor: pointer;
+    color: white;
+}
