@@ -52,8 +52,23 @@ const showNews = (newslist) => {
                     <div class="card-body w-3/6">
                         <h2 class="card-title">${news.title ? news.title : "no data"}</h2>
                         <p>${news == '' ? console.log('no data found') : news.details}</p>
-                        <div class="card-actions justify-end">
-                           <span class="text-2xl font-light text-red-500">Read More</span><i onclick="" class="text-5xl text-rose-600 fa-solid fa-play"></i>
+                        <div class="flex justify-around" >
+                            <div>
+                            <img src="${news.author.img}">
+                            </div>
+                            <div>
+                            <i class="fa-regular fa-eye"></i>${news.total_view}
+                            </div>
+                            <div>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>${news.rating.number}
+                            </div>
+                            <div class="">
+                            <span class="text-2xl font-light text-red-500">Read More</span><i onclick="" class="text-5xl text-rose-600 fa-solid fa-play"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
