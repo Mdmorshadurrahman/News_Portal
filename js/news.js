@@ -47,27 +47,34 @@ const showNews = (newslist) => {
         console.log(news);
         const eachNewsDiv = document.createElement('div');
         eachNewsDiv.innerHTML = `
-        <div class="card lg:card-side bg-base-100 shadow-xl my-10 h-5/6 shadow-green-200 border-2 border-red-500">
-                    <figure><img class="h-full w-96 place-items-center" src="${news ? news.image_url : 'no data found'}" alt="Album" /></figure>
-                    <div class="card-body w-3/6">
+        <div
+                    class="card lg:card-side bg-base-100 shadow-xl my-10 h-5/6 shadow-green-200 border-2 border-red-500">
+                    <figure><img class="h-full w-96" src="${news ? news.image_url : 'no data found'}" alt="Album" />
+                    </figure>
+                    <div class="card-body w-3/6 bg-base-300 rounded-tr-2xl rounded-br-2xl">
                         <h2 class="card-title">${news.title ? news.title : "no data"}</h2>
                         <p>${news == '' ? console.log('no data found') : news.details}</p>
-                        <div class="flex justify-around" >
-                            <div>
-                            <img src="${news.author.img}">
+                        <div class=" h-20 flex justify-around gap-24 items-center">
+                            <div class="h-full flex w-68 flex-column gap-2">
+                                <img class="h-full rounded-full" src="${news.author.img}">
+                                <div class=" w-full h-full mt-3">
+                                    <h5>${news.author.name}</h5>
+                                    <h5>${news.author.published_date.slice(0, 10)}</h5>
+                                </div>
                             </div>
                             <div>
-                            <i class="fa-regular fa-eye"></i>${news.total_view}
-                            </div>
-                            <div>
-                            <i class="fa-solid fa-star-half-stroke"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>${news.rating.number}
+                                <i class="fa-regular fa-eye"></i>${news.total_view}
                             </div>
                             <div class="">
-                            <span class="text-2xl font-light text-red-500">Read More</span><i onclick="" class="text-5xl text-rose-600 fa-solid fa-play"></i>
+                                <i class="fa-solid fa-star-half-stroke"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>${news.rating.number}
+                            </div>
+                            <div class="flex flex-column gap-2 ">
+                                <span class="text-2xl mt-1 font-light text-red-500">Read More</span>
+                                <i onclick="" class="text-5xl text-rose-600 fa-solid fa-play"></i>
                             </div>
                         </div>
                     </div>
