@@ -7,7 +7,7 @@ const loadCategory = () => {
 }
 
 const showCategory = (categories) => {
-    console.log(categories)
+    console.log('inside category', categories)
     const categoryContainer = document.getElementById('categoryList');
     categories.forEach(category => {
         const categoriesDiv = document.createElement('div');
@@ -17,7 +17,6 @@ const showCategory = (categories) => {
         `;
         categoryContainer.appendChild(categoriesDiv);
     });
-    // const buttonstyle = document.getElementById('newsButton' + id);
     getNews(categories[Math.floor(Math.random() * 7)].category_id);
 }
 
@@ -41,47 +40,90 @@ const getNews = (id) => {
 
 
 const showNews = (newslist) => {
+    console.log('inside newslist', newslist)
     const newsCardDiv = document.getElementById('newsCardList');
     newsCardDiv.innerHTML = '';
-    newslist.forEach(news => {
-        console.log(news);
-        const eachNewsDiv = document.createElement('div');
-        eachNewsDiv.innerHTML = `
+    if (newslist.length === 0) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.classList.add('emptyDivStyle');
+        emptyDiv.innerText = "CURRENTLY NO DATA AVAILABLE";
+        newsCardDiv.appendChild(emptyDiv);
+    }
+    else {
+
+        newslist.forEach(news => {
+            const eachNewsDiv = document.createElement('div');
+            eachNewsDiv.innerHTML = `
         <div
-                    class="card lg:card-side bg-base-100 shadow-xl my-10 h-5/6 shadow-green-200 border-2 border-red-500">
-                    <figure><img class="h-full w-96" src="${news ? news.image_url : 'no data found'}" alt="Album" />
+                    class="card lg:card-side bg-base-100 shadow-xl my-10 h-5/6 shadow-green-200 border-2 border-black">
+                    <figure><img class="h-full w-96" src="${news.image_url ? news.image_url : 'no data found'}" alt="Album" />
                     </figure>
-                    <div class="card-body w-3/6 bg-base-300 rounded-tr-2xl rounded-br-2xl">
+                    <div class="card-body w-3/6 bg-gray-200 rounded-tr-2xl rounded-br-2xl">
                         <h2 class="card-title">${news.title ? news.title : "no data"}</h2>
-                        <p>${news == '' ? console.log('no data found') : news.details}</p>
-                        <div class=" h-20 flex justify-around gap-24 items-center">
+                        <p>${news.details ? news.details : 'no data found'}</p>
+                        <div class=" h-12 flex justify-between gap-24 items-center">
                             <div class="h-full flex w-68 flex-column gap-2">
-                                <img class="h-full rounded-full" src="${news.author.img}">
-                                <div class=" w-full h-full mt-3">
-                                    <h5>${news.author.name}</h5>
-                                    <h5>${news.author.published_date.slice(0, 10)}</h5>
+                                <img class="h-full rounded-full" src="${news.author.img ? news.author.img : "no image found"}">
+                                <div class=" w-full h-full">
+                                    <h5>${news.author.name ? news.author.name : "no data found"}</h5>
+                                    <h5 class="text-gray-500">${news.author.published_date ? news.author.published_date.slice(0, 10) : "no data found"}</h5>
                                 </div>
                             </div>
                             <div>
-                                <i class="fa-regular fa-eye"></i>${news.total_view}
+                                <i class="fa-regular fa-eye mr-2"></i>${news.total_view ? news.total_view : "No data Found"}
                             </div>
                             <div class="">
                                 <i class="fa-solid fa-star-half-stroke"></i>
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>${news.rating.number}
+                                <i class="fa-solid fa-star mr-2"></i>${news.rating.number ? news.rating.number : "No data Found"}
                             </div>
                             <div class="flex flex-column gap-2 ">
-                                <span class="text-2xl mt-1 font-light text-red-500">Read More</span>
-                                <i onclick="" class="text-5xl text-rose-600 fa-solid fa-play"></i>
+                                <span class="text-2xl mt-1 font-light text-black">Read More</span>
+                                <label for="my-modal-3" onclick="getmodaldata('${news._id}')" class="border-2 btn bg-gray-200 hover:bg-green-500"><i class=" text-3xl text-red-600 fa-solid fa-play hover:cursor-pointer"></i></label>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
     `;
-        newsCardDiv.appendChild(eachNewsDiv);
-    });
+            newsCardDiv.appendChild(eachNewsDiv);
+        });
+    }
+}
+const getmodaldata = (newsId) => {
+    const modalurl = `https://openapi.programming-hero.com/api/news/${newsId}`;
+    fetch(modalurl)
+        .then(res => res.json())
+        .then(data => showmodaldata(data.data[0]))
+}
+
+const showmodaldata = (data) => {
+
+    const modalidDiv = document.getElementById('modalId');
+    const getmodaltitle = document.getElementById('modaltitle');
+    const getmodaldetails = document.getElementById('modaldetails');
+    const getmodalauthor = document.getElementById('modalauthor');
+    // modalidDiv.innerHTML = '';
+    // const modalidDivtry = document.createElement('div');
+    getmodalauthor.innerText = data.author.name ? data.author.name : 'no data found';
+    getmodaltitle.innerText = data.title ? data.title : 'no data found';
+    getmodaldetails.innerText = data.details ? data.details.slice(0, 150) : 'no data found';
+    // modalidDiv.innerHTML = `
+    // <input type="checkbox" id="my-modal-3" class="modal-toggle" />
+    //     <div class="modal">
+    //         <div class="modal-box relative">
+    //             <label for="my-modal-3" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+    //             <h3 class="text-lg font-bold">Title: ${data.title ? data.title : "no data found"}</h3>
+    //             <p class="py-4">details: ${data.details ? data.details.slice(0, 20) : "no data found"}
+    //             </p>
+    //             <h5>Written by: ${data.author.name ? data.author.name : "no data found"}</h5>
+    //         </div>
+    //     </div>
+    // `;
+    // modalidDiv.appendChild(modalidDivtry);
+    console.log(modalidDiv);
 }
 
 loadCategory();

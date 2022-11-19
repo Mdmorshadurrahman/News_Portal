@@ -24,7 +24,8 @@
             <div class="flex-none">
                 <div class="flex-none">
                     <ul class="menu menu-horizontal p-0 mr-4 font-sans font-normal">
-                        <li class="mr-1"><a class="text-white bg-red-600" onclick="loadCategory()">News</a>
+                        <li class="mr-1"><a class="border-2 border-black text-white bg-red-600"
+                                onclick="loadCategory()">News</a>
                         </li>
                         <li><a class="text-black hover:text-white hover:bg-green-600">Blog</a>
                         </li>
@@ -70,11 +71,28 @@
             </div>
         </section>
     </main>
-    <footer class="footer footer-center p-10 bg-black text-base-content text-gray-300">
+    <footer class="footer footer-center p-10 bg-black text-base-content text-white">
         <div>
-            <p>Copyright © 2022 - All right reserved by ACME Industries Ltd</p>
+            <p>Copyright © 2022 - All right reserved by NEWS 24/7 Ltd.</p>
         </div>
     </footer>
+    <!-- modal section -->
+    <section id="modalId">
+        <input type="checkbox" id="my-modal-3" class="modal-toggle" />
+        <div class="modal">
+            <div class="modal-box relative">
+                <label for="my-modal-3" class="btn btn-sm btn-circle absolute right-2 top-2 hover:bg-red-600 ">✕</label>
+                <h3 class="text-lg text-red-600 font-bold">Title: <span class="text-black font-light"
+                        id="modaltitle"></span>
+                </h3>
+                <p class="py-4 text-red-600 font-semibold">Details: <span class="text-black font-light"
+                        id="modaldetails"></span>
+                </p>
+                <h5 class="text-red-600">Written by: <span class=" text-black font-light" id="modalauthor"></span>
+                </h5>
+            </div>
+        </div>
+    </section>
     <script src=".//js/news.js"></script>
 </body>
 

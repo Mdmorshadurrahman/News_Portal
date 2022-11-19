@@ -22,3 +22,10 @@
 .card-actions i {
     cursor: pointer;
 }
+
+.emptyDivStyle {
+    text-align: center;
+    font-size: 500%;
+    margin: 30% 2%;
+    font-weight: bold;
+}
