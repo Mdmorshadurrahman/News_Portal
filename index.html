@@ -62,7 +62,35 @@
         </section>
 
         <section>
-            <!-- notification and extrapanel -->
+            <!-- notification -->
+            <div id="itemnumber">
+
+            </div>
+        </section>
+        <section>
+            <!-- extrapanel -->
+            <div class="mx-20 w-auto  flex flex-row justify-between items-center">
+                <!-- left side -->
+                <div class="flex flex-row items-center gap-2">
+                    <h3 class="font-bold text-black text-lg">Sort By: </h3>
+                    <div class="dropdown dropdown-right">
+                        <label tabindex="0"
+                            class="btn m-1 text-black hover:text-white bg-white hover:bg-green-500 border-2"
+                            id="select">Select</label>
+                        <ul tabindex="0" class="dropdown-content menu mt-1 border-2 border-black rounded-box w-auto">
+                            <li class="hover:bg-green-500 hover:text-white active:bg-green-500" id="views"><a>Views</a>
+                            </li>
+                            <li class="hover:text-white hover:bg-green-500" id="ratings"><a>Ratings</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- right side -->
+                <div>
+                    <button class="btn btn-outline mr-4 hover:bg-green-500 border-2" id="todayPick">Today's
+                        Pick</button>
+                    <button class="btn btn-outline hover:bg-green-500 border-2" id="trending">Trending</button>
+                </div>
+            </div>
         </section>
         <section>
             <!-- news card list -->

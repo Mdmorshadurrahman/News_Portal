@@ -5,7 +5,7 @@ const loadCategory = () => {
         .then(data => showCategory(data.data.news_category))
 
 }
-
+let tempID = 0;
 const showCategory = (categories) => {
     console.log('inside category', categories)
     const categoryContainer = document.getElementById('categoryList');
@@ -13,36 +13,113 @@ const showCategory = (categories) => {
         const categoriesDiv = document.createElement('div');
         categoriesDiv.classList.add('categories');
         categoriesDiv.innerHTML = `
-        <button onclick="getNews('${category.category_id}')" class="px-3 py-1" id='newsButton${category.category_id}'>${category.category_name}</button>
+        <button onclick="temporary('${category.category_id}')" class="btn btn-outline hover:bg-red-600 px-3 py-1" id='newsButton${category.category_id}'>${category.category_name}</button>
         `;
         categoryContainer.appendChild(categoriesDiv);
+        console.log('1');
+
     });
-    getNews(categories[Math.floor(Math.random() * 7)].category_id);
+    // tempID = category.category_id;
+    getNews(categories[Math.floor(Math.random() * 7)].category_id, tempID);
+    //  
+
 }
+const temporary = (data) => {
+    console.log('tempid in temp', tempID);
+    const previousstyle = document.getElementById('newsButton' + tempID);
+    previousstyle.style.color = 'hsl(var(--bc)/var(--tw-text-opacity))';
+    previousstyle.style.opacity = '1';
+    previousstyle.style.backgroundColor = '#0000';
+    // previousstyle.style.padding = '4px 12px';
+    previousstyle.style.borderRadius = 'var(--rounded-btn,.5rem);';
+    previousstyle.style.borderColor = 'currentcolor';
+    previousstyle.style.borderWidth = 'var(--border-btn,1px)';
+    getNews(data);
+}
+const getNews = (id, previousid) => {
+    tempID = id;
+    console.log('tempID id inside function', tempID);
+    console.log('current id inside function', id);
 
-const getNews = (id) => {
-
-    // buttonstyle.style.color = 'white';
-    // buttonstyle.style.backgroundColor = 'green';
-    // buttonstyle.style.padding = '4px 12px';
-    // buttonstyle.style.border = '0px';
     const buttonstyle = document.getElementById('newsButton' + id);
-    buttonstyle.style.color = 'white';
+    buttonstyle.classList.add("btn-active");
     buttonstyle.style.backgroundColor = 'rgb(219, 42, 42)';
     buttonstyle.style.padding = '4px 12px';
     buttonstyle.style.border = '2px solid black';
     const newsUrl = `https://openapi.programming-hero.com/api/news/category/${id}`;
     fetch(newsUrl)
         .then(res => res.json())
-        .then(data => showNews(data.data))
+        .then(data => sortData(data.data))
 }
 
+const sortData = (data) => {
+    const selectData = document.getElementById('select');
+    console.log(selectData.innerText);
+    document.getElementById('views').addEventListener('click', function () {
+        const selectData = document.getElementById('select');
+        selectData.innerText = 'Views';
+        sortData(data);
+    });
 
+    document.getElementById('ratings').addEventListener('click', function () {
+        const selectData = document.getElementById('select');
+        selectData.innerText = 'Ratings';
+        sortData(data);
+    });
+
+    document.getElementById('trending').addEventListener('click', function () {
+        var temparray = [];
+        data.map(x => {
+            if (x.others_info.is_trending.toString() === "true") {
+                temparray.push(x)
+                // console.log('inside if', data);
+            }
+        });
+        // console.log(temparray)
+        // console.log(data)
+        showNews(temparray);
+    });
+
+    document.getElementById('todayPick').addEventListener('click', function () {
+        var temparray = [];
+        data.map(x => {
+            if (x.others_info.is_todays_pick.toString() === "true") {
+                temparray.push(x);
+                // console.log('inside if')
+            }
+        });
+        // console.log(temparray)
+        // console.log(data)
+        showNews(temparray);
+    });
+
+    if (selectData.innerText === 'VIEWS') {
+        data.sort((a, b) => b.total_view - a.total_view);
+        // console.log('inside views', data);
+    }
+    else if (selectData.innerText === 'RATINGS') {
+        data.sort((a, b) => b.rating.number - a.rating.number);
+        // console.log('inside ratings', data);
+    }
+    else {
+        console.log(data);
+    }
+    showNews(data);
+}
 
 const showNews = (newslist) => {
-    console.log('inside newslist', newslist)
+    console.log('entered', newslist[0])
     const newsCardDiv = document.getElementById('newsCardList');
+    const itemnumberDivs = document.getElementById('itemnumber');
+    itemnumberDivs.innerHTML = '';
     newsCardDiv.innerHTML = '';
+    itemnumberDivs.innerHTML = `
+        <div class="card w-auto border-2 border-black my-10 mx-20 bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title"> <span class="text-red-500 text-2xl"> ${newslist.length} </span> News available in this section</h2>
+            </div>
+        </div>
+        `;
     if (newslist.length === 0) {
         const emptyDiv = document.createElement('div');
         emptyDiv.classList.add('emptyDivStyle');
@@ -50,7 +127,6 @@ const showNews = (newslist) => {
         newsCardDiv.appendChild(emptyDiv);
     }
     else {
-
         newslist.forEach(news => {
             const eachNewsDiv = document.createElement('div');
             eachNewsDiv.innerHTML = `
@@ -58,7 +134,7 @@ const showNews = (newslist) => {
                     class="card lg:card-side bg-base-100 shadow-xl my-10 h-5/6 shadow-green-200 border-2 border-black">
                     <figure><img class="h-full w-96" src="${news.image_url ? news.image_url : 'no data found'}" alt="Album" />
                     </figure>
-                    <div class="card-body w-3/6 bg-gray-200 rounded-tr-2xl rounded-br-2xl">
+                    <div class="card-body w-3/6 bg-white rounded-tr-2xl rounded-br-2xl">
                         <h2 class="card-title">${news.title ? news.title : "no data"}</h2>
                         <p>${news.details ? news.details : 'no data found'}</p>
                         <div class=" h-12 flex justify-between gap-24 items-center">
@@ -81,7 +157,7 @@ const showNews = (newslist) => {
                             </div>
                             <div class="flex flex-column gap-2 ">
                                 <span class="text-2xl mt-1 font-light text-black">Read More</span>
-                                <label for="my-modal-3" onclick="getmodaldata('${news._id}')" class="border-2 btn bg-gray-200 hover:bg-green-500"><i class=" text-3xl text-red-600 fa-solid fa-play hover:cursor-pointer"></i></label>
+                                <label for="my-modal-3" onclick="getmodaldata('${news._id}')" class="border-2 btn bg-red-500 hover:bg-green-400"><i class=" text-3xl text-white fa-solid fa-play hover:cursor-pointer"></i></label>
                                 
                             </div>
                         </div>
@@ -105,25 +181,11 @@ const showmodaldata = (data) => {
     const getmodaltitle = document.getElementById('modaltitle');
     const getmodaldetails = document.getElementById('modaldetails');
     const getmodalauthor = document.getElementById('modalauthor');
-    // modalidDiv.innerHTML = '';
-    // const modalidDivtry = document.createElement('div');
     getmodalauthor.innerText = data.author.name ? data.author.name : 'no data found';
     getmodaltitle.innerText = data.title ? data.title : 'no data found';
     getmodaldetails.innerText = data.details ? data.details.slice(0, 150) : 'no data found';
-    // modalidDiv.innerHTML = `
-    // <input type="checkbox" id="my-modal-3" class="modal-toggle" />
-    //     <div class="modal">
-    //         <div class="modal-box relative">
-    //             <label for="my-modal-3" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-    //             <h3 class="text-lg font-bold">Title: ${data.title ? data.title : "no data found"}</h3>
-    //             <p class="py-4">details: ${data.details ? data.details.slice(0, 20) : "no data found"}
-    //             </p>
-    //             <h5>Written by: ${data.author.name ? data.author.name : "no data found"}</h5>
-    //         </div>
-    //     </div>
-    // `;
-    // modalidDiv.appendChild(modalidDivtry);
     console.log(modalidDiv);
 }
+
 
 loadCategory();
