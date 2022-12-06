@@ -9,14 +9,19 @@ let tempID = 0;
 const showCategory = (categories) => {
     console.log('inside category', categories)
     const categoryContainer = document.getElementById('categoryList');
+    const hiddenMenuCategories = document.getElementById('hidden_menu_list');
     categories.forEach(category => {
         const categoriesDiv = document.createElement('div');
+        const hiddenMenuCategoriesli = document.createElement('li');
         categoriesDiv.classList.add('categories');
         categoriesDiv.innerHTML = `
-        <button onclick="temporary('${category.category_id}')" class="btn btn-outline hover:bg-red-600 px-3 py-1" id='newsButton${category.category_id}'>${category.category_name}</button>
+        <button onclick="temporary('${category.category_id}')" class="max-lg:hidden btn btn-outline hover:bg-red-600 px-3 py-1" id='newsButton${category.category_id}'>${category.category_name}</button>
+        `;
+        hiddenMenuCategoriesli.innerHTML = `
+        <button onclick="temporary('${category.category_id}')" class="lg:hidden btn btn-outline hover:bg-red-600 px-3 py-1" id='newsButton${category.category_id}'>${category.category_name}</button>
         `;
         categoryContainer.appendChild(categoriesDiv);
-        console.log('1');
+        hiddenMenuCategories.appendChild(hiddenMenuCategoriesli);
 
     });
     // tempID = category.category_id;
@@ -30,13 +35,12 @@ const temporary = (data) => {
     previousstyle.style.color = 'hsl(var(--bc)/var(--tw-text-opacity))';
     previousstyle.style.opacity = '1';
     previousstyle.style.backgroundColor = '#0000';
-    // previousstyle.style.padding = '4px 12px';
     previousstyle.style.borderRadius = 'var(--rounded-btn,.5rem);';
     previousstyle.style.borderColor = 'currentcolor';
     previousstyle.style.borderWidth = 'var(--border-btn,1px)';
     getNews(data);
 }
-const getNews = (id, previousid) => {
+const getNews = (id) => {
     tempID = id;
     console.log('tempID id inside function', tempID);
     console.log('current id inside function', id);
@@ -72,11 +76,8 @@ const sortData = (data) => {
         data.map(x => {
             if (x.others_info.is_trending.toString() === "true") {
                 temparray.push(x)
-                // console.log('inside if', data);
             }
         });
-        // console.log(temparray)
-        // console.log(data)
         showNews(temparray);
     });
 
@@ -85,21 +86,16 @@ const sortData = (data) => {
         data.map(x => {
             if (x.others_info.is_todays_pick.toString() === "true") {
                 temparray.push(x);
-                // console.log('inside if')
             }
         });
-        // console.log(temparray)
-        // console.log(data)
         showNews(temparray);
     });
 
     if (selectData.innerText === 'VIEWS') {
         data.sort((a, b) => b.total_view - a.total_view);
-        // console.log('inside views', data);
     }
     else if (selectData.innerText === 'RATINGS') {
         data.sort((a, b) => b.rating.number - a.rating.number);
-        // console.log('inside ratings', data);
     }
     else {
         console.log(data);
@@ -114,9 +110,9 @@ const showNews = (newslist) => {
     itemnumberDivs.innerHTML = '';
     newsCardDiv.innerHTML = '';
     itemnumberDivs.innerHTML = `
-        <div class="card w-auto border-2 border-black my-10 mx-20 bg-base-100 shadow-xl">
-            <div class="card-body">
-                <h2 class="card-title"> <span class="text-red-500 text-2xl"> ${newslist.length} </span> News available in this section</h2>
+        <div class="card w-auto border-2 border-black my-10 mx-20 bg-base-100  max-[400px]:hidden shadow-xl">
+            <div class="card-body mx-auto">
+                <h2 class="card-title"> <span class="text-red-500 text-2xl "> ${newslist.length} </span> News available in this section</h2>
             </div>
         </div>
         `;
@@ -130,25 +126,24 @@ const showNews = (newslist) => {
         newslist.forEach(news => {
             const eachNewsDiv = document.createElement('div');
             eachNewsDiv.innerHTML = `
-        <div
-                    class="card lg:card-side bg-base-100 shadow-xl my-10 h-5/6 shadow-green-200 border-2 border-black">
-                    <figure><img class="h-full w-96" src="${news.image_url ? news.image_url : 'no data found'}" alt="Album" />
+        <div class="card xl:card-side bg-base-100 shadow-xl my-10 h-5/6 shadow-green-200 border-2 border-black">
+                    <figure><img class="xl:h-full h-76 w-full xl:w-80" src="${news.image_url ? news.image_url : 'no data found'}" alt="Album" />
                     </figure>
-                    <div class="card-body w-3/6 bg-white rounded-tr-2xl rounded-br-2xl">
+                    <div class="card-body xl:w-3/6 w-full bg-white rounded-tr-2xl rounded-br-2xl max-xl:rounded-bl-2xl ">
                         <h2 class="card-title">${news.title ? news.title : "no data"}</h2>
                         <p>${news.details ? news.details : 'no data found'}</p>
                         <div class=" h-12 flex justify-between gap-24 items-center">
-                            <div class="h-full flex w-68 flex-column gap-2">
+                            <div class="h-full flex w-68 flex-column gap-2 max-sm:hidden">
                                 <img class="h-full rounded-full" src="${news.author.img ? news.author.img : "no image found"}">
                                 <div class=" w-full h-full">
                                     <h5>${news.author.name ? news.author.name : "no data found"}</h5>
                                     <h5 class="text-gray-500">${news.author.published_date ? news.author.published_date.slice(0, 10) : "no data found"}</h5>
                                 </div>
                             </div>
-                            <div>
+                            <div class="max-xl:hidden">
                                 <i class="fa-regular fa-eye mr-2"></i>${news.total_view ? news.total_view : "No data Found"}
                             </div>
-                            <div class="">
+                            <div class="max-xl:hidden">
                                 <i class="fa-solid fa-star-half-stroke"></i>
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
