@@ -1,4 +1,5 @@
 const loadCategory = () => {
+    document.getElementById('spinner').classList.remove('hidden');
     const url = 'https://openapi.programming-hero.com/api/news/categories';
     fetch(url)
         .then(res => res.json())
@@ -10,6 +11,7 @@ const showCategory = (categories) => {
     console.log('inside category', categories)
     const categoryContainer = document.getElementById('categoryList');
     const hiddenMenuCategories = document.getElementById('hidden_menu_list');
+    document.getElementById('spinner').classList.add('hidden');
     categories.forEach(category => {
         const categoriesDiv = document.createElement('div');
         const hiddenMenuCategoriesli = document.createElement('li');
