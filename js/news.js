@@ -26,13 +26,12 @@ const showCategory = (categories) => {
         hiddenMenuCategories.appendChild(hiddenMenuCategoriesli);
 
     });
-    // tempID = category.category_id;
     getNews(categories[Math.floor(Math.random() * 7)].category_id, tempID);
-    //  
+
 
 }
 const temporary = (data) => {
-    console.log('tempid in temp', tempID);
+    // console.log('tempid in temp', tempID);
     const previousstyle = document.getElementById('newsButton' + tempID);
     previousstyle.style.color = 'hsl(var(--bc)/var(--tw-text-opacity))';
     previousstyle.style.opacity = '1';
@@ -44,9 +43,8 @@ const temporary = (data) => {
 }
 const getNews = (id) => {
     tempID = id;
-    console.log('tempID id inside function', tempID);
-    console.log('current id inside function', id);
-
+    // console.log('tempID id inside function', tempID);
+    // console.log('current id inside function', id);
     const buttonstyle = document.getElementById('newsButton' + id);
     buttonstyle.classList.add("btn-active");
     buttonstyle.style.backgroundColor = 'rgb(219, 42, 42)';
