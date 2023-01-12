@@ -16,14 +16,15 @@ const showCategory = (categories) => {
         const categoriesDiv = document.createElement('div');
         const hiddenMenuCategoriesli = document.createElement('li');
         categoriesDiv.classList.add('categories');
-        categoriesDiv.innerHTML = `
-        <button onclick="temporary('${category.category_id}')" class="max-lg:hidden btn btn-outline hover:bg-red-600 px-3 py-1" id='newsButton${category.category_id}'>${category.category_name}</button>
-        `;
         hiddenMenuCategoriesli.innerHTML = `
-        <button onclick="temporary('${category.category_id}')" class="lg:hidden btn btn-outline hover:bg-red-600 px-3 py-1" id='newsButton${category.category_id}'>${category.category_name}</button>
+        <button onclick="temporary('${category.category_id}')" class=" lg:hidden btn btn-outline hover:bg-red-600 px-3 py-1">${category.category_name}</button>
         `;
-        categoryContainer.appendChild(categoriesDiv);
+        categoriesDiv.innerHTML = `
+        <button onclick="temporary('${category.category_id}')" class=" max-lg:hidden btn btn-outline hover:bg-red-600 px-3 py-1" id='newsButton${category.category_id}'>${category.category_name}</button>
+        `;
         hiddenMenuCategories.appendChild(hiddenMenuCategoriesli);
+        categoryContainer.appendChild(categoriesDiv);
+
 
     });
     getNews(categories[Math.floor(Math.random() * 7)].category_id, tempID);
@@ -46,10 +47,13 @@ const getNews = (id) => {
     // console.log('tempID id inside function', tempID);
     // console.log('current id inside function', id);
     const buttonstyle = document.getElementById('newsButton' + id);
+    console.log(buttonstyle);
     buttonstyle.classList.add("btn-active");
     buttonstyle.style.backgroundColor = 'rgb(219, 42, 42)';
     buttonstyle.style.padding = '4px 12px';
     buttonstyle.style.border = '2px solid black';
+    buttonstyle.style.color = 'white';
+    console.log(buttonstyle);
     const newsUrl = `https://openapi.programming-hero.com/api/news/category/${id}`;
     fetch(newsUrl)
         .then(res => res.json())
@@ -73,6 +77,12 @@ const sortData = (data) => {
 
     document.getElementById('trending').addEventListener('click', function () {
         var temparray = [];
+        const todayStyle = document.getElementById('todayPick');
+        this.style.backgroundColor = 'rgb(34 197 94 / var(--tw-bg-opacity))';
+        this.style.color = 'white';
+        this.style.border = '2px solid black';
+        todayStyle.style.backgroundColor = 'white';
+        todayStyle.style.color = 'black';
         data.map(x => {
             if (x.others_info.is_trending.toString() === "true") {
                 temparray.push(x)
@@ -83,6 +93,12 @@ const sortData = (data) => {
 
     document.getElementById('todayPick').addEventListener('click', function () {
         var temparray = [];
+        const trendingStyle = document.getElementById('trending');
+        this.style.backgroundColor = 'rgb(34 197 94 / var(--tw-bg-opacity))';
+        this.style.color = 'white';
+        this.style.border = '2px solid black';
+        trendingStyle.style.backgroundColor = 'white';
+        trendingStyle.style.color = 'black';
         data.map(x => {
             if (x.others_info.is_todays_pick.toString() === "true") {
                 temparray.push(x);
